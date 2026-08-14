@@ -29,6 +29,20 @@ $$
 $$
 ```
 
+## 代码高亮
+
+代码围栏在三个反引号后填写语言名称即可使用 Shiki 高亮，例如：
+
+````md
+```cpp
+bool is_prime(long long x) {
+    return x >= 2;
+}
+```
+````
+
+常用语言名称包括 `cpp`、`c`、`python`、`javascript`、`typescript`、`rust` 和 `java`。不填写语言时按普通文本显示。
+
 ## 原生 HTML
 
 可信的条目文件可以直接插入 HTML：

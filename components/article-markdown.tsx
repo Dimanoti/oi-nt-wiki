@@ -1,5 +1,6 @@
-import ReactMarkdown, { defaultUrlTransform, type Components } from "react-markdown";
+import { MarkdownAsync, defaultUrlTransform, type Components } from "react-markdown";
 import rehypeKatex from "rehype-katex";
+import rehypePrettyCode, { type Options as PrettyCodeOptions } from "rehype-pretty-code";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -11,7 +12,13 @@ type ArticleMarkdownProps = {
   sections: ArticleSection[];
 };
 
-export function ArticleMarkdown({ markdown, sections }: ArticleMarkdownProps) {
+const prettyCodeOptions: PrettyCodeOptions = {
+  theme: "github-light",
+  keepBackground: false,
+  defaultLang: "plaintext",
+};
+
+export async function ArticleMarkdown({ markdown, sections }: ArticleMarkdownProps) {
   let headingIndex = 0;
   const basePath = process.env.BASE_PATH ?? "";
   const expandedMarkdown = expandMarkdownContainers(markdown);
@@ -35,13 +42,13 @@ export function ArticleMarkdown({ markdown, sections }: ArticleMarkdownProps) {
   };
 
   return (
-    <ReactMarkdown
+    <MarkdownAsync
       remarkPlugins={[remarkGfm, remarkMath]}
-      rehypePlugins={[rehypeRaw, rehypeKatex]}
+      rehypePlugins={[rehypeRaw, rehypeKatex, [rehypePrettyCode, prettyCodeOptions]]}
       components={components}
       urlTransform={(url) => url.startsWith("embed:") ? url : defaultUrlTransform(url)}
     >
       {expandedMarkdown}
-    </ReactMarkdown>
+    </MarkdownAsync>
   );
 }

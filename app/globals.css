@@ -80,6 +80,10 @@ button { color: inherit; }
 .article-content img { max-width: 100%; height: auto; }
 .article-content pre { margin: 18px 0; padding: 15px 18px; overflow-x: auto; border: 1px solid #c8ccd1; background: var(--surface); font-family: var(--font-mono), monospace; font-size: .88em; line-height: 1.6; tab-size: 4; }
 .article-content pre code { padding: 0; border: 0; background: transparent; font: inherit; }
+.article-content [data-rehype-pretty-code-figure] { margin: 18px 0; }
+.article-content [data-rehype-pretty-code-figure] pre { margin: 0; }
+.article-content [data-rehype-pretty-code-figure] code { display: grid; min-width: max-content; }
+.article-content [data-rehype-pretty-code-figure] [data-line] { min-height: 1.6em; }
 .article-content :not(pre) > code { padding: 1px 4px; border: 1px solid #eaecf0; background: var(--surface); font-family: var(--font-mono), monospace; font-size: .88em; white-space: nowrap; }
 .article-content .katex-display { overflow-x: auto; overflow-y: hidden; }
 .article-content details { margin: 1em 0; padding: 8px 12px; border: 1px solid var(--border); }
