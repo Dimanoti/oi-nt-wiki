@@ -1,7 +1,10 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
-import type { ArticleSection } from "@/lib/articles";
+import type { ArticleSearchEntry, ArticleSection } from "@/lib/articles";
+import { findArticles } from "@/lib/search";
 
 type TextSize = "small" | "standard" | "large";
 type ContentWidth = "standard" | "wide";
@@ -9,16 +12,24 @@ type ContentWidth = "standard" | "wide";
 type WikiArticleShellProps = {
   title: string;
   sections: ArticleSection[];
+  searchEntries: ArticleSearchEntry[];
   children: ReactNode;
 };
 
-export function WikiArticleShell({ title, sections, children }: WikiArticleShellProps) {
+export function WikiArticleShell({ title, sections, searchEntries, children }: WikiArticleShellProps) {
+  const router = useRouter();
   const [textSize, setTextSize] = useState<TextSize>("standard");
   const [contentWidth, setContentWidth] = useState<ContentWidth>("standard");
   const [tocOpen, setTocOpen] = useState(true);
   const [appearanceOpen, setAppearanceOpen] = useState(true);
   const [activeSection, setActiveSection] = useState(sections[0]?.id ?? "");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const sectionKey = useMemo(() => sections.map(({ id }) => id).join("|"), [sections]);
+  const searchResults = useMemo(
+    () => findArticles(searchEntries, searchQuery).slice(0, 8),
+    [searchEntries, searchQuery],
+  );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,14 +57,57 @@ export function WikiArticleShell({ title, sections, children }: WikiArticleShell
   return (
     <div className={`wiki-app text-${textSize} width-${contentWidth}`}>
       <header className="global-header">
-        <a className="wordmark" href="#article-start" aria-label="信息学数论百科首页">
+        <Link className="wordmark" href="/" aria-label="信息学数论百科首页">
           <span className="wordmark-symbol">NT</span>
           <strong>信息学数论百科</strong>
-        </a>
-        <form className="global-search" role="search" onSubmit={(event) => event.preventDefault()}>
+        </Link>
+        <form
+          className="global-search"
+          role="search"
+          onFocus={() => setSearchOpen(true)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setSearchOpen(false);
+          }}
+          onSubmit={(event) => {
+            event.preventDefault();
+            const firstResult = searchResults[0];
+            if (firstResult) router.push(`/${firstResult.slug}`);
+          }}
+        >
           <span aria-hidden="true">⌕</span>
-          <input aria-label="搜索条目" placeholder="搜索条目" />
+          <input
+            aria-label="搜索条目"
+            aria-autocomplete="list"
+            aria-controls="article-search-results"
+            aria-expanded={searchOpen && searchQuery.trim().length > 0}
+            placeholder="搜索条目"
+            value={searchQuery}
+            onChange={(event) => {
+              setSearchQuery(event.target.value);
+              setSearchOpen(true);
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") setSearchOpen(false);
+            }}
+          />
           <button type="submit">搜索</button>
+          {searchOpen && searchQuery.trim().length > 0 && (
+            <div className="search-results" id="article-search-results" role="listbox" aria-label="搜索结果">
+              {searchResults.length > 0 ? searchResults.map((entry) => (
+                <Link
+                  className="search-result"
+                  href={`/${entry.slug}`}
+                  key={entry.slug}
+                  role="option"
+                  aria-selected="false"
+                  onClick={() => setSearchOpen(false)}
+                >
+                  <strong>{entry.title}</strong>
+                  {entry.description && <span>{entry.description}</span>}
+                </Link>
+              )) : <p className="search-empty">未找到条目</p>}
+            </div>
+          )}
         </form>
       </header>
 

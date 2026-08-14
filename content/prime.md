@@ -1,6 +1,8 @@
 ---
 title: 素数
 description: 素数的定义与普通素数判断。
+slug: 素数
+aliases: prime
 ---
 
 ## 素数的定义

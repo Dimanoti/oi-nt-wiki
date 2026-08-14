@@ -8,29 +8,51 @@ export type ArticleSection = {
 
 export type Article = {
   slug: string;
+  aliases: string[];
   title: string;
   description: string;
   body: string;
   sections: ArticleSection[];
 };
 
-export const articleSlugs = Object.keys(articleSources);
+export type ArticleSearchEntry = {
+  slug: string;
+  aliases: string[];
+  title: string;
+  description: string;
+  text: string;
+};
 
-export function getArticle(slug: string): Article | null {
-  const source = articleSources[slug as keyof typeof articleSources];
-  if (!source) return null;
-
+const articles: Article[] = Object.entries(articleSources).map(([fileSlug, source]) => {
   const { data, content } = parseFrontMatter(source);
-  const title = data.title || slug;
-  const description = data.description || "";
+  const slug = data.slug || fileSlug;
+  const aliases = parseAliases(data.aliases).filter((alias) => alias !== slug);
 
   return {
     slug,
-    title,
-    description,
+    aliases,
+    title: data.title || slug,
+    description: data.description || "",
     body: content,
     sections: extractSections(content),
   };
+});
+
+export const articleSlugs = collectArticleSlugs(articles);
+
+export function getArticle(slug: string): Article | null {
+  const decodedSlug = decodeRouteSlug(slug);
+  return articles.find((article) => article.slug === decodedSlug || article.aliases.includes(decodedSlug)) ?? null;
+}
+
+export function getArticleSearchIndex(): ArticleSearchEntry[] {
+  return articles.map((article) => ({
+    slug: article.slug,
+    aliases: article.aliases,
+    title: article.title,
+    description: article.description,
+    text: stripMarkdownForSearch(article.body),
+  }));
 }
 
 function parseFrontMatter(source: string): { data: Record<string, string>; content: string } {
@@ -94,4 +116,42 @@ function headingId(value: string): string {
     .toLocaleLowerCase("zh-CN")
     .replace(/[^\p{L}\p{N}]+/gu, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+function parseAliases(value?: string): string[] {
+  if (!value) return [];
+  return value.split(/[,，]/).map((alias) => alias.trim()).filter(Boolean);
+}
+
+function collectArticleSlugs(entries: Article[]): string[] {
+  const slugs = entries.flatMap((article) => [article.slug, ...article.aliases]);
+  const seen = new Set<string>();
+
+  for (const slug of slugs) {
+    if (/\s|[/?#]/.test(slug)) {
+      throw new Error(`Invalid article slug: ${slug}. Do not use whitespace, /, ?, or #.`);
+    }
+    if (seen.has(slug)) throw new Error(`Duplicate article slug: ${slug}`);
+    seen.add(slug);
+  }
+
+  return slugs;
+}
+
+function stripMarkdownForSearch(value: string): string {
+  return value
+    .replace(/```[\s\S]*?```/g, (block) => block.replace(/^```[^\n]*|```$/g, ""))
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[#*_`~>$|:{}\[\]\\]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function decodeRouteSlug(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
 }

@@ -1,6 +1,6 @@
 # 条目编辑指南
 
-每个条目是 `content` 目录中的一个 Markdown 文件。文件名使用小写英文、数字和连字符，例如 `prime.md`、`euler-function.md`。新增文件后重新运行开发服务器，页面会自动生成在同名路径下。
+每个条目是 `content` 目录中的一个 Markdown 文件。文件名使用小写英文、数字和连字符，例如 `prime.md`、`euler-function.md`。公开路径可以在头部使用 `slug` 单独设置，因此文件名仍然易于管理，网址则可以使用中文。新增文件后重新运行开发服务器，页面和搜索索引都会自动更新。
 
 ## 基本格式
 
@@ -8,12 +8,16 @@
 ---
 title: 条目标题
 description: 页面摘要
+slug: 中文网址
+aliases: old-path
 ---
 
 ## 一级章节
 
 Markdown 正文。
 ```
+
+例如 `prime.md` 设置 `slug: 素数` 后，页面地址是 `/素数/`。`aliases` 是可选的旧地址，多个地址使用逗号分隔。
 
 ## KaTeX
 

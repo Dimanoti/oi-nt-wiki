@@ -37,11 +37,18 @@ button { color: inherit; }
 .wordmark:hover { color: var(--text); text-decoration: none; }
 .wordmark-symbol { display: grid; width: 44px; height: 44px; border: 1px solid var(--text); border-radius: 50%; font-family: var(--font-serif), serif; font-size: 18px; font-weight: 700; place-items: center; }
 .wordmark strong { font-family: var(--font-serif), serif; font-size: 18px; font-weight: 700; letter-spacing: .06em; line-height: 1.2; }
-.global-search { display: flex; height: 34px; border: 1px solid var(--border); }
+.global-search { position: relative; display: flex; height: 34px; border: 1px solid var(--border); }
 .global-search > span { display: grid; width: 36px; color: var(--muted); font-size: 20px; transform: rotate(-15deg); place-items: center; }
 .global-search input { min-width: 0; flex: 1; padding: 4px 8px; border: 0; outline: 0; }
 .global-search button { min-width: 64px; border: 0; border-left: 1px solid var(--border); background: var(--surface); font-weight: 600; cursor: pointer; }
 .global-search button:hover { background: #fff; }
+.search-results { position: absolute; z-index: 20; top: calc(100% + 5px); right: 0; left: 0; overflow: hidden; border: 1px solid var(--border); background: var(--white); box-shadow: 0 3px 10px rgb(0 0 0 / 14%); }
+.search-result { display: flex; flex-direction: column; gap: 2px; padding: 8px 11px; color: var(--text); text-decoration: none; }
+.search-result + .search-result { border-top: 1px solid var(--line); }
+.search-result:hover, .search-result:focus { background: var(--surface); outline: 0; }
+.search-result strong { font-size: 13px; }
+.search-result span { overflow: hidden; color: var(--muted); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.search-empty { margin: 0; padding: 10px 11px; color: var(--muted); font-size: 12px; }
 
 .wiki-layout { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 42px; width: min(1260px, 100%); margin: 0 auto; padding: 34px 42px 0; transition: width .2s ease; }
 .width-wide .wiki-layout { width: min(1660px, 100%); }
