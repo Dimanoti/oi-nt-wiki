@@ -16,16 +16,13 @@ aliases: prime
 若 $x$ 是合数，则它至少有一个不超过 $\sqrt{x}$ 的因数。因此，只需检查区间 $[2,\sqrt{x}]$ 中是否存在 $x$ 的因数。
 
 ```cpp
-bool is_prime(long long x) {
+bool is_prime(int x) {
     if (x < 2) return false;
 
-    for (long long i = 2; i <= x / i; ++i) {
+    for (int i = 2; i <= sqrt(x); i++)
         if (x % i == 0) return false;
-    }
     return true;
 }
 ```
-
-代码中的 `i <= x / i` 等价于 `i * i <= x`，并避免乘法溢出。
 
 时间复杂度为 $O(\sqrt{x})$，空间复杂度为 $O(1)$。
