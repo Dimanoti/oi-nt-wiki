@@ -113,12 +113,12 @@ index 346b316..8caadd4 100644
  const mono = IBM_Plex_Mono({ variable: "--font-mono", subsets: ["latin"], weight: ["400", "500", "600"] });
  
  export const metadata: Metadata = {
--  title: "淇℃伅瀛︽暟璁虹櫨绉�",
+-  title: "信息学数论百科",
 +  title: {
-+    default: "淇℃伅瀛︽暟璁虹櫨绉�",
-+    template: "%s - 淇℃伅瀛︽暟璁虹櫨绉�",
++    default: "信息学数论百科",
++    template: "%s - 信息学数论百科",
 +  },
-   description: "闈㈠悜淇℃伅瀛︾珵璧涚殑鏁拌鐧剧銆�",
+   description: "面向信息学竞赛的数论百科。",
    other: { "codex-preview": "development" },
    icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
 diff --git a/app/page.tsx b/app/page.tsx
@@ -138,9 +138,9 @@ index a9d2ee7..07589ec 100644
 -type ContentWidth = "standard" | "wide";
 -
 -const sections = [
--  { id: "article-start", label: "寮€澶�" },
--  { id: "article-section", label: "1銆€绔犺妭鏍囬" },
--  { id: "article-extensions", label: "2銆€鎵╁睍妯″潡" },
+-  { id: "article-start", label: "开头" },
+-  { id: "article-section", label: "1　章节标题" },
+-  { id: "article-extensions", label: "2　扩展模块" },
 -];
 -
 -function PlaceholderLines({ count = 4, short = false }: { count?: number; short?: boolean }) {
@@ -190,48 +190,48 @@ index a9d2ee7..07589ec 100644
 -  return (
 -    <div className={`wiki-app text-${textSize} width-${contentWidth}`}>
 -      <header className="global-header">
--        <a className="wordmark" href="#article-start" aria-label="淇℃伅瀛︽暟璁虹櫨绉戦椤�">
+-        <a className="wordmark" href="#article-start" aria-label="信息学数论百科首页">
 -          <span className="wordmark-symbol">NT</span>
--          <strong>淇℃伅瀛︽暟璁虹櫨绉�</strong>
+-          <strong>信息学数论百科</strong>
 -        </a>
 -        <form className="global-search" role="search" onSubmit={(event) => event.preventDefault()}>
--          <span aria-hidden="true">鈱�</span>
--          <input aria-label="鎼滅储鏉＄洰" placeholder="鎼滅储鏉＄洰" />
--          <button type="submit">鎼滅储</button>
+-          <span aria-hidden="true">⌕</span>
+-          <input aria-label="搜索条目" placeholder="搜索条目" />
+-          <button type="submit">搜索</button>
 -        </form>
 -      </header>
 -
 -      <div className="wiki-layout">
 -        <main className="article-page">
 -          <header className="article-heading" id="article-start">
--            <div><h1>鏉＄洰鏍囬</h1><p>鏉ヨ嚜 淇℃伅瀛︽暟璁虹櫨绉�</p></div>
+-            <div><h1>条目标题</h1><p>来自 信息学数论百科</p></div>
 -          </header>
 -
 -          <div className="content-columns">
 -            <article className="article-content">
 -              <div className="content-placeholder lead-placeholder">
--                <span className="placeholder-label">Markdown 姝ｆ枃鍖哄煙</span>
+-                <span className="placeholder-label">Markdown 正文区域</span>
 -                <PlaceholderLines count={5} />
 -              </div>
 -
 -              <section className="template-section" id="article-section">
--                <div className="section-title-row"><h2>绔犺妭鏍囬</h2></div>
+-                <div className="section-title-row"><h2>章节标题</h2></div>
 -                <PlaceholderLines count={4} short />
 -              </section>
 -
 -              <section className="template-section" id="article-extensions">
--                <div className="section-title-row"><h2>鎵╁睍妯″潡</h2></div>
+-                <div className="section-title-row"><h2>扩展模块</h2></div>
 -                <div className="extension-grid">
 -                  <div className="extension-block formula-block">
 -                    <span className="extension-label">KaTeX</span>
 -                    <div className="formula-placeholder"><i /><i /><i /></div>
 -                  </div>
 -                  <div className="extension-block code-block">
--                    <span className="extension-label">浠ｇ爜</span>
+-                    <span className="extension-label">代码</span>
 -                    <div className="code-placeholder"><i /><i /><i /><i /></div>
 -                  </div>
 -                  <div className="extension-block visual-block">
--                    <span className="extension-label">HTML / 鍙鍖�</span>
+-                    <span className="extension-label">HTML / 可视化</span>
 -                    <div className="visual-placeholder"><span>+</span></div>
 -                  </div>
 -                </div>
@@ -242,9 +242,9 @@ index a9d2ee7..07589ec 100644
 -
 -        <aside className="right-sidebar">
 -          <section className={!tocOpen ? "sidebar-collapsed" : ""}>
--            <h2>鐩綍 <button type="button" aria-expanded={tocOpen} onClick={() => setTocOpen((open) => !open)}>{tocOpen ? "闅愯棌" : "鏄剧ず"}</button></h2>
+-            <h2>目录 <button type="button" aria-expanded={tocOpen} onClick={() => setTocOpen((open) => !open)}>{tocOpen ? "隐藏" : "显示"}</button></h2>
 -            {tocOpen && (
--              <nav className="toc-list" aria-label="鏈〉鐩綍">
+-              <nav className="toc-list" aria-label="本页目录">
 -                {sections.map((section) => (
 -                  <a
 -                    className={activeSection === section.id ? "current" : ""}
@@ -258,19 +258,19 @@ index a9d2ee7..07589ec 100644
 -          </section>
 -
 -          <section className={!appearanceOpen ? "sidebar-collapsed" : ""}>
--            <h2>澶栬 <button type="button" aria-expanded={appearanceOpen} onClick={() => setAppearanceOpen((open) => !open)}>{appearanceOpen ? "闅愯棌" : "鏄剧ず"}</button></h2>
+-            <h2>外观 <button type="button" aria-expanded={appearanceOpen} onClick={() => setAppearanceOpen((open) => !open)}>{appearanceOpen ? "隐藏" : "显示"}</button></h2>
 -            {appearanceOpen && (
 -              <div className="appearance-controls">
 -                <fieldset>
--                  <legend>鏂囧瓧</legend>
--                  <label><input type="radio" name="text-size" checked={textSize === "small"} onChange={() => setTextSize("small")} /> 灏�</label>
--                  <label><input type="radio" name="text-size" checked={textSize === "standard"} onChange={() => setTextSize("standard")} /> 鏍囧噯</label>
--                  <label><input type="radio" name="text-size" checked={textSize === "large"} onChange={() => setTextSize("large")} /> 澶�</label>
+-                  <legend>文字</legend>
+-                  <label><input type="radio" name="text-size" checked={textSize === "small"} onChange={() => setTextSize("small")} /> 小</label>
+-                  <label><input type="radio" name="text-size" checked={textSize === "standard"} onChange={() => setTextSize("standard")} /> 标准</label>
+-                  <label><input type="radio" name="text-size" checked={textSize === "large"} onChange={() => setTextSize("large")} /> 大</label>
 -                </fieldset>
 -                <fieldset>
--                  <legend>瀹藉害</legend>
--                  <label><input type="radio" name="width" checked={contentWidth === "standard"} onChange={() => setContentWidth("standard")} /> 鏍囧噯</label>
--                  <label><input type="radio" name="width" checked={contentWidth === "wide"} onChange={() => setContentWidth("wide")} /> 瀹�</label>
+-                  <legend>宽度</legend>
+-                  <label><input type="radio" name="width" checked={contentWidth === "standard"} onChange={() => setContentWidth("standard")} /> 标准</label>
+-                  <label><input type="radio" name="width" checked={contentWidth === "wide"} onChange={() => setContentWidth("wide")} /> 宽</label>
 -                </fieldset>
 -              </div>
 -            )}
@@ -318,7 +318,7 @@ index 0000000..c950713
 +        ? `${basePath}/embeds/${src.slice("embed:".length).replace(/^\/+/, "")}`
 +        : src;
 +
-+      return <iframe {...props} src={resolvedSource} title={title ?? "宓屽叆鍐呭"} loading="lazy" />;
++      return <iframe {...props} src={resolvedSource} title={title ?? "嵌入内容"} loading="lazy" />;
 +    },
 +  };
 +
@@ -404,14 +404,14 @@ index 0000000..0a87fce
 +  return (
 +    <div className={`wiki-app text-${textSize} width-${contentWidth}`}>
 +      <header className="global-header">
-+        <a className="wordmark" href="#article-start" aria-label="淇℃伅瀛︽暟璁虹櫨绉戦椤�">
++        <a className="wordmark" href="#article-start" aria-label="信息学数论百科首页">
 +          <span className="wordmark-symbol">NT</span>
-+          <strong>淇℃伅瀛︽暟璁虹櫨绉�</strong>
++          <strong>信息学数论百科</strong>
 +        </a>
 +        <form className="global-search" role="search" onSubmit={(event) => event.preventDefault()}>
-+          <span aria-hidden="true">鈱�</span>
-+          <input aria-label="鎼滅储鏉＄洰" placeholder="鎼滅储鏉＄洰" />
-+          <button type="submit">鎼滅储</button>
++          <span aria-hidden="true">⌕</span>
++          <input aria-label="搜索条目" placeholder="搜索条目" />
++          <button type="submit">搜索</button>
 +        </form>
 +      </header>
 +
@@ -420,7 +420,7 @@ index 0000000..0a87fce
 +          <header className="article-heading" id="article-start">
 +            <div>
 +              <h1>{title}</h1>
-+              <p>鏉ヨ嚜 淇℃伅瀛︽暟璁虹櫨绉�</p>
++              <p>来自 信息学数论百科</p>
 +            </div>
 +          </header>
 +
@@ -432,13 +432,13 @@ index 0000000..0a87fce
 +        <aside className="right-sidebar">
 +          <section className={!tocOpen ? "sidebar-collapsed" : ""}>
 +            <h2>
-+              鐩綍
++              目录
 +              <button type="button" aria-expanded={tocOpen} onClick={() => setTocOpen((open) => !open)}>
-+                {tocOpen ? "闅愯棌" : "鏄剧ず"}
++                {tocOpen ? "隐藏" : "显示"}
 +              </button>
 +            </h2>
 +            {tocOpen && (
-+              <nav className="toc-list" aria-label="鏈〉鐩綍">
++              <nav className="toc-list" aria-label="本页目录">
 +                {sections.map((section) => (
 +                  <a
 +                    className={`${activeSection === section.id ? "current" : ""}${section.level === 3 ? " toc-subsection" : ""}`}
@@ -458,23 +458,23 @@ index 0000000..0a87fce
 +
 +          <section className={!appearanceOpen ? "sidebar-collapsed" : ""}>
 +            <h2>
-+              澶栬
++              外观
 +              <button type="button" aria-expanded={appearanceOpen} onClick={() => setAppearanceOpen((open) => !open)}>
-+                {appearanceOpen ? "闅愯棌" : "鏄剧ず"}
++                {appearanceOpen ? "隐藏" : "显示"}
 +              </button>
 +            </h2>
 +            {appearanceOpen && (
 +              <div className="appearance-controls">
 +                <fieldset>
-+                  <legend>鏂囧瓧</legend>
-+                  <label><input type="radio" name="text-size" checked={textSize === "small"} onChange={() => setTextSize("small")} /> 灏�</label>
-+                  <label><input type="radio" name="text-size" checked={textSize === "standard"} onChange={() => setTextSize("standard")} /> 鏍囧噯</label>
-+                  <label><input type="radio" name="text-size" checked={textSize === "large"} onChange={() => setTextSize("large")} /> 澶�</label>
++                  <legend>文字</legend>
++                  <label><input type="radio" name="text-size" checked={textSize === "small"} onChange={() => setTextSize("small")} /> 小</label>
++                  <label><input type="radio" name="text-size" checked={textSize === "standard"} onChange={() => setTextSize("standard")} /> 标准</label>
++                  <label><input type="radio" name="text-size" checked={textSize === "large"} onChange={() => setTextSize("large")} /> 大</label>
 +                </fieldset>
 +                <fieldset>
-+                  <legend>瀹藉害</legend>
-+                  <label><input type="radio" name="width" checked={contentWidth === "standard"} onChange={() => setContentWidth("standard")} /> 鏍囧噯</label>
-+                  <label><input type="radio" name="width" checked={contentWidth === "wide"} onChange={() => setContentWidth("wide")} /> 瀹�</label>
++                  <legend>宽度</legend>
++                  <label><input type="radio" name="width" checked={contentWidth === "standard"} onChange={() => setContentWidth("standard")} /> 标准</label>
++                  <label><input type="radio" name="width" checked={contentWidth === "wide"} onChange={() => setContentWidth("wide")} /> 宽</label>
 +                </fieldset>
 +              </div>
 +            )}
@@ -490,26 +490,26 @@ index 0000000..489200f
 --- /dev/null
 +++ b/content/README.md
 @@ -0,0 +1,47 @@
-+# 鏉＄洰缂栬緫鎸囧崡
++# 条目编辑指南
 +
-+姣忎釜鏉＄洰鏄� `content` 鐩綍涓殑涓€涓� Markdown 鏂囦欢銆傛枃浠跺悕浣跨敤灏忓啓鑻辨枃銆佹暟瀛楀拰杩炲瓧绗︼紝渚嬪 `prime.md`銆乣euler-function.md`銆傛柊澧炴枃浠跺悗閲嶆柊杩愯寮€鍙戞湇鍔″櫒锛岄〉闈細鑷姩鐢熸垚鍦ㄥ悓鍚嶈矾寰勪笅銆�
++每个条目是 `content` 目录中的一个 Markdown 文件。文件名使用小写英文、数字和连字符，例如 `prime.md`、`euler-function.md`。新增文件后重新运行开发服务器，页面会自动生成在同名路径下。
 +
-+## 鍩烘湰鏍煎紡
++## 基本格式
 +
 +```md
 +---
-+title: 鏉＄洰鏍囬
-+description: 椤甸潰鎽樿
++title: 条目标题
++description: 页面摘要
 +---
 +
-+## 涓€绾х珷鑺�
++## 一级章节
 +
-+Markdown 姝ｆ枃銆�
++Markdown 正文。
 +```
 +
 +## KaTeX
 +
-+琛屽唴鍏紡鍐欐垚 `$a^2+b^2=c^2$`锛岀嫭绔嬪叕寮忓啓鎴愶細
++行内公式写成 `$a^2+b^2=c^2$`，独立公式写成：
 +
 +```md
 +$$
@@ -517,26 +517,26 @@ index 0000000..489200f
 +$$
 +```
 +
-+## 鍘熺敓 HTML
++## 原生 HTML
 +
-+鍙俊鐨勬潯鐩枃浠跺彲浠ョ洿鎺ユ彃鍏� HTML锛�
++可信的条目文件可以直接插入 HTML：
 +
 +```html
 +<details>
-+  <summary>灞曞紑</summary>
-+  <p>杩欓噷浠嶇劧鏄潯鐩殑涓€閮ㄥ垎銆�</p>
++  <summary>展开</summary>
++  <p>这里仍然是条目的一部分。</p>
 +</details>
 +```
 +
-+## 瀹屾暣 HTML / JavaScript 鍙鍖�
++## 完整 HTML / JavaScript 可视化
 +
-+灏嗕换鎰� HTML銆丆SS銆丣avaScript 椤甸潰鏀惧叆 `public/embeds`锛屽啀鍦� Markdown 涓祵鍏ワ細
++将任意 HTML、CSS、JavaScript 页面放入 `public/embeds`，再在 Markdown 中嵌入：
 +
 +```html
-+<iframe class="wiki-embed" src="embed:demo.html" title="婕旂ず"></iframe>
++<iframe class="wiki-embed" src="embed:demo.html" title="演示"></iframe>
 +```
 +
-+`embed:` 浼氳嚜鍔ㄥ鐞� GitHub Pages 鐨勪粨搴撳瓙璺緞銆傚祵鍏ュ唴瀹规嫢鏈夊畬鏁� HTML 鑳藉姏锛屽彧搴斿姞鍏ヨ嚜宸变俊浠荤殑浠ｇ爜銆�
++`embed:` 会自动处理 GitHub Pages 的仓库子路径。嵌入内容拥有完整 HTML 能力，只应加入自己信任的代码。
 diff --git a/content/generated.ts b/content/generated.ts
 new file mode 100644
 index 0000000..82f43b5
@@ -556,19 +556,19 @@ index 0000000..d6792fd
 +++ b/content/prime.md
 @@ -0,0 +1,29 @@
 +---
-+title: 绱犳暟
-+description: 绱犳暟鐨勫畾涔変笌鏅€氱礌鏁板垽鏂€�
++title: 素数
++description: 素数的定义与普通素数判断。
 +---
 +
-+## 绱犳暟鐨勫畾涔�
++## 素数的定义
 +
-+**绱犳暟**鏄ぇ浜� $1$ 鐨勮嚜鐒舵暟锛屼笖瀹冪殑姝ｅ洜鏁板彧鏈� $1$ 鍜屽畠鏈韩銆�
++**素数**是大于 $1$ 的自然数，且它的正因数只有 $1$ 和它本身。
 +
-+鍥犳锛�$1$ 涓嶆槸绱犳暟銆�
++因此，$1$ 不是素数。
 +
-+## 鏅€氱礌鏁板垽鏂�
++## 普通素数判断
 +
-+鑻� $x$ 鏄悎鏁帮紝鍒欏畠鑷冲皯鏈変竴涓笉瓒呰繃 $\sqrt{x}$ 鐨勫洜鏁般€傚洜姝わ紝鍙渶妫€鏌ュ尯闂� $[2,\sqrt{x}]$ 涓槸鍚﹀瓨鍦� $x$ 鐨勫洜鏁般€�
++若 $x$ 是合数，则它至少有一个不超过 $\sqrt{x}$ 的因数。因此，只需检查区间 $[2,\sqrt{x}]$ 中是否存在 $x$ 的因数。
 +
 +```cpp
 +bool is_prime(long long x) {
@@ -581,9 +581,9 @@ index 0000000..d6792fd
 +}
 +```
 +
-+浠ｇ爜涓殑 `i <= x / i` 绛変环浜� `i * i <= x`锛屽苟閬垮厤涔樻硶婧㈠嚭銆�
++代码中的 `i <= x / i` 等价于 `i * i <= x`，并避免乘法溢出。
 +
-+鏃堕棿澶嶆潅搴︿负 $O(\sqrt{x})$锛岀┖闂村鏉傚害涓� $O(1)$銆�
++时间复杂度为 $O(\sqrt{x})$，空间复杂度为 $O(1)$。
 diff --git a/lib/articles.ts b/lib/articles.ts
 new file mode 100644
 index 0000000..92d9a80
