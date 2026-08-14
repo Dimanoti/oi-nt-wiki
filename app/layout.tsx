@@ -8,7 +8,10 @@ const serif = Noto_Serif_SC({ variable: "--font-serif", subsets: ["latin"], weig
 const mono = IBM_Plex_Mono({ variable: "--font-mono", subsets: ["latin"], weight: ["400", "500", "600"] });
 
 export const metadata: Metadata = {
-  title: "信息学数论百科",
+  title: {
+    default: "信息学数论百科",
+    template: "%s - 信息学数论百科",
+  },
   description: "面向信息学竞赛的数论百科。",
   other: { "codex-preview": "development" },
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },

@@ -7,18 +7,18 @@
   },
   "scripts": {
     "install:ci": "bash scripts/install-ci.sh",
-    "dev": "next dev --webpack --hostname 127.0.0.1",
+    "content:generate": "node scripts/generate-articles.mjs",
+    "predev": "npm run content:generate",
+    "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
+    "prebuild": "npm run content:generate",
     "build": "bash scripts/build-verified.sh",
+    "prebuild:pages": "npm run content:generate",
     "build:pages": "STATIC_EXPORT=1 next build --webpack",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
     "validate:artifact": "bash scripts/validate-artifact.sh",
     "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate",
-    "content:generate": "node scripts/generate-articles.mjs",
-    "predev": "npm run content:generate",
-    "prebuild": "npm run content:generate",
-    "prebuild:pages": "npm run content:generate"
+    "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",
@@ -53,14 +53,5 @@
     "wrangler": "4.92.0"
   },
   "type": "module",
-  "displayName": "OI Number Theory Wiki",
-  "allowScripts": {
-    "esbuild@0.18.20": true,
-    "esbuild@0.25.12": true,
-    "esbuild@0.28.0": true,
-    "esbuild@0.27.3": true,
-    "sharp@0.34.5": true,
-    "unrs-resolver@1.11.1": true,
-    "workerd@1.20260515.1": true
-  }
+  "displayName": "OI Number Theory Wiki"
 }
