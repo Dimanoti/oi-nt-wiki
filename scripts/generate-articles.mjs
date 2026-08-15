@@ -12,8 +12,11 @@ const files = (await readdir(contentDirectory))
 
 for (const file of files) {
   const slug = file.slice(0, -3);
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
-    throw new Error(`Invalid article filename: ${file}. Use lowercase letters, numbers, and single hyphens.`);
+
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(slug)) {
+    throw new Error(
+      `Invalid article filename: ${file}. Use letters, numbers, and single hyphens.`,
+    );
   }
 }
 
