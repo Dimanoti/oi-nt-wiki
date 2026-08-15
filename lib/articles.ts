@@ -20,7 +20,6 @@ export type ArticleSearchEntry = {
   aliases: string[];
   title: string;
   description: string;
-  text: string;
 };
 
 const articles: Article[] = Object.entries(articleSources).map(([fileSlug, source]) => {
@@ -51,7 +50,6 @@ export function getArticleSearchIndex(): ArticleSearchEntry[] {
     aliases: article.aliases,
     title: article.title,
     description: article.description,
-    text: stripMarkdownForSearch(article.body),
   }));
 }
 
@@ -136,16 +134,6 @@ function collectArticleSlugs(entries: Article[]): string[] {
   }
 
   return slugs;
-}
-
-function stripMarkdownForSearch(value: string): string {
-  return value
-    .replace(/```[\s\S]*?```/g, (block) => block.replace(/^```[^\n]*|```$/g, ""))
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/[#*_`~>$|:{}\[\]\\]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 }
 
 function decodeRouteSlug(value: string): string {
