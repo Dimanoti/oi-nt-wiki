@@ -145,3 +145,22 @@ button { color: inherit; }
   .article-heading { align-items: flex-start; flex-direction: column; }
   .article-content pre { padding: 12px; font-size: .8em; }
 }
+
+.article-content ol,
+.article-content ul {
+  margin: 0.6em 0;
+  padding-left: 2em;
+}
+
+.article-content ol {
+  list-style: decimal outside;
+}
+
+.article-content ul {
+  list-style: disc outside;
+}
+
+.article-content li {
+  display: list-item;
+  margin: 0.25em 0;
+}

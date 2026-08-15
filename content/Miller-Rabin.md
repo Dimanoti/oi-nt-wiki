@@ -80,7 +80,7 @@ bool is_prime(ull n) {
 
 若使用随机底数，对于任意奇合数，一次检验发生误判的概率至多为 $\dfrac14$。独立进行 $k$ 次检验后，误判概率至多为 $\dfrac{1}{4^k}$。
 
-值得注意的是，该算法不能得到一个合数的质因数。对大合数的质因数分解详见[Pollard-Rho算法](/oi-nt-wiki/Pollard-Rho)。
+值得注意的是，该算法不能得到一个合数的质因数。对大合数的[质因数分解](/oi-nt-wiki/合数#质因数分解)详见[Pollard-Rho算法](/oi-nt-wiki/Pollard-Rho)。
 
 ## 复杂度
 
