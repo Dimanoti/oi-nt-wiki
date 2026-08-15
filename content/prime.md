@@ -29,4 +29,4 @@ bool is_prime(int x) {
 
 时间复杂度为 $O(\sqrt{x})$，空间复杂度为 $O(1)$。
 
-对于大素数素性判断，参考 [Miller-Rabin素性判断](/Miller-Rabin)。
+对于大素数素性判断，参考 [Miller-Rabin素性判断](/oi-nt-wiki/Miller-Rabin)。
