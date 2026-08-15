@@ -68,15 +68,16 @@ $$
 ## 代码实现
 
 ```cpp
-long long qpow(long long a, long long b, long long mod);
-const long long small_primes[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
-const long long bases[] = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};
+#define ull unsigned long long
+ull qpow(ull a, ull b, ull mod);
+const ull small_primes[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+const ull bases[] = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};
 
-bool is_prime(long long n) {
+bool is_prime(ull n) {
     if (n < 2)  return false;
     for (auto p : small_primes)
         if (n % p == 0) return n == p;
-    long long d = n - 1, s = 0;
+    ull d = n - 1, s = 0;
     while ((d & 1) == 0)
         d >>= 1, s++;
     for (auto a : bases) {
@@ -85,7 +86,7 @@ bool is_prime(long long n) {
         if (x == 1 || x == n - 1)   continue;
         bool passed = false;
         for (int r = 1; r < s; ++r) {
-            __int128 x2 = (__int128)x * x;
+            __uint128_t x2 = (__uint128_t)x * x;
             x = x2 % n;
             if (x == n - 1) {
                 passed = true;
