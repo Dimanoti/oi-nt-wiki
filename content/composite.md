@@ -2,7 +2,7 @@
 title: 合数
 description: 大于一且不是素数的自然数
 slug: 合数
-aliases: composite, 质因数分解, 算术基本定理
+aliases: composite, 质因数分解
 ---
 
 ## 合数的定义
