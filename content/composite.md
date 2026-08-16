@@ -23,8 +23,8 @@ $$
 
 ```cpp
 #define ll long long
-std::vector<std::pair<ll, int>> factorize(long long x) {
-    std::vector<std::pair<ll, int>> factors;
+vector<pair<ll, int>> factorize(long long x) {
+    vector<pair<ll, int>> factors;
     for (int p = 2; p <= sqrt(x); p++) {
         if (x % p != 0) continue;
         int exponent = 0;
